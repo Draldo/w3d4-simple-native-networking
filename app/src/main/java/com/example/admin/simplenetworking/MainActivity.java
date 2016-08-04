@@ -1,59 +1,30 @@
 package com.example.admin.simplenetworking;
 
-import android.os.StrictMode;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName() + "TAG_";
+    private TextView mTextview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        mTextview = (TextView) findViewById(R.id.a_main_textview);
     }
 
     public void doMagic(View view) {
-        String urlStr = "http://www.mocky.io/v2/57a01bec0f0000c10d0f650f";
-        HttpURLConnection connection = null;
+//        new namesTask(mTextview).execute();
+        new namesTask(this).execute();
+    }
 
-        try {
-            URL urlFormatted = new URL(urlStr);
-
-            connection = (HttpURLConnection) urlFormatted.openConnection();
-            InputStream in = new BufferedInputStream(connection.getInputStream());
-
-            Scanner scan = new Scanner(in);
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while (scan.hasNext()){
-                stringBuilder.append(scan.next());
-            }
-
-            Log.d(TAG, "doMagic: " + stringBuilder.toString());
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection!=null){
-                connection.disconnect();
-            }
-        }
+    public void loadData(String s) {
+        mTextview.setText(s);
     }
 }
